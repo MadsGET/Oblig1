@@ -12,26 +12,68 @@ namespace Oblig1
 
         public FamilyApp(params Person[] persons) 
         {
-            foreach (Person p in persons) 
+            foreach (Person person in persons) 
             {
-                AddItem(p);
+                bool isMother = false;
+                List <Person> children = new List<Person>();
+
+                foreach (Person potentialChild in persons) 
+                {
+                    if (potentialChild.Father == person || potentialChild.Mother == person) 
+                    {
+                        isMother = (potentialChild.Mother == person);
+                        children.Add(potentialChild);
+                    }
+                }
+
+                if (children.Count != 0) 
+                {
+                    person.familyTree = new FamilyTree(children.ToArray());
+                    person.familyTree.AddParent(person, isMother);
+                }
+
+                // Add this person to the register
+                AddItem(person);
             }
+
+            // Loop through and join any family trees that are seperated
+            for (int i = 0; i < persons.Length; i++) 
+            {            
+                Person selected = Content[i];
+
+                // If this person is childless.
+                if (selected.familyTree == null) continue;
+
+                foreach (Person person in Content) 
+                {
+                    // If this person is not the same as selected and is not childless
+                    if (person != selected && person.familyTree != null) 
+                    {                     
+                        if (selected.familyTree.Compare(person.familyTree)) 
+                        {
+                            // Join the familytrees
+                            selected.familyTree.Join(person);
+                        }
+                    }
+                }
+            }       
         }
 
-        public string HandleCommand(string parameter)
+        public string HandleCommand(string parameter, bool isUnitTest = false)
         {
             string[] convertedParams = parameter.Split(" "); 
-            //Console.Clear();
+            
+            if(!isUnitTest) Console.Clear();
 
             switch (convertedParams[0].ToLower())
             {
                 default: return InvalidCommand;
-                case "hjelp": return $"{ShowHelpText()}";
-                case "liste": return $"{ListAll()}";
+                case "hjelp": return ShowHelpText();
+                case "liste": return ListAll();
                 case "vis":
                     int result = -1;
                     if (convertedParams.Length == 2) int.TryParse(convertedParams[1], out result);
-                    return $"{ListItem(result)}";
+                    return ListItem(result);
             }
         }
 

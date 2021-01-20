@@ -9,7 +9,7 @@ namespace Oblig1
         public int Id, BirthYear, DeathYear;
         public string FirstName, LastName;
         public Person Mother, Father;
-        //public FamilyGroup family;
+        public FamilyTree familyTree;
 
         public Person(int id = -1, string firstName = "", string lastName = "", int birthYear = -1, int deathYear = -1, Person mother = null, Person father = null)
         {
@@ -20,6 +20,7 @@ namespace Oblig1
             DeathYear = deathYear;
             Mother = mother;
             Father = father;
+            familyTree = null;
         }
 
         public string GetName() 
@@ -42,43 +43,17 @@ namespace Oblig1
             return builder.ToString();
         }
 
-        public string GetDescription()
+        public string GetDescription(bool displayParents = true)
         {
             StringBuilder builder = new StringBuilder();
 
             builder.Append(GetDescriptionShort(true));
             if (BirthYear != -1) builder.Append($" Født: {BirthYear}");
             if (DeathYear != -1) builder.Append($" Død: {DeathYear}");
-            if (Father != null) builder.Append($" Far: {Father.GetDescriptionShort()}");
-            if (Mother != null) builder.Append($" Mor: {Mother.GetDescriptionShort()}");
-
+            if (Father != null && displayParents) builder.Append($" Far: {Father.GetDescriptionShort()}");
+            if (Mother != null && displayParents) builder.Append($" Mor: {Mother.GetDescriptionShort()}");
+            builder.Append("\n");
             return builder.ToString();
-        }
-
-        // Resolve on adding
-        public bool HasParent(List<Person> register) 
-        {
-            foreach (var person in register)
-            {
-                if (person.Mother == Mother || person.Father == Father) return true;
-            }
-
-            return false;
-        }
-
-        // Resolve on adding
-        public List<int> FindChildren(List<Person> register)
-        {
-            // Setup result list
-            List<int> result = new List<int>();
-
-            foreach (var person in register) 
-            {
-                // If this is the father or mother of the person
-                if (person.Father == this || person.Mother == this) result.Add(person.Id);
-            }
-
-            return result;
         }
     }
 }

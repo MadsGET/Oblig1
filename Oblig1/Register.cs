@@ -6,17 +6,17 @@ namespace Oblig1
 {
     public class Register
     {
-        private static List<Person> _content;
+        public List<Person> Content;
 
         public Register() 
         {
-            _content = new List<Person>();
+            Content = new List<Person>();
         }
 
         // Get an item
         public Person GetItem(int idToCompare) 
         {
-            foreach (var item in _content) 
+            foreach (var item in Content) 
             {
                 if (item.Id == idToCompare) return item;
             }
@@ -27,13 +27,13 @@ namespace Oblig1
         // Add an item
         public void AddItem(Person item) 
         {
-            _content.Add(item);
+            Content.Add(item);
         }
 
         // Checks if this register holds the parsed id
         public bool Contains(int idToCompare) 
         {
-            foreach (var person in _content) 
+            foreach (var person in Content) 
             {
                 if (person.Id == idToCompare) return true;
             }
@@ -64,11 +64,17 @@ namespace Oblig1
         {
             StringBuilder builder = new StringBuilder();
 
-            if (_content.Count != 0)
+            if (Content.Count != 0)
             {
-                foreach (var person in _content) 
+                List<FamilyTree> familyTrees = new List<FamilyTree>();
+
+                foreach (Person person in Content)
                 {
-                    builder.Append(person.GetDescription() + "\n");
+                    if (person.familyTree != null && !familyTrees.Contains(person.familyTree))
+                    {
+                        familyTrees.Add(person.familyTree);
+                        builder.Append(person.familyTree.ToString());
+                    }
                 }
             }
             else 

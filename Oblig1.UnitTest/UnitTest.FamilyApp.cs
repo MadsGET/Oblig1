@@ -16,7 +16,7 @@ namespace Oblig1.UnitTest
             haakon.Father = harald;
 
             var app = new FamilyApp(sverreMagnus, ingridAlexandra, haakon);
-            var actualResponse = app.HandleCommand("vis 3");
+            var actualResponse = app.HandleCommand("vis 3", true); // Extra bool pga ville ha funksjonalitet clear i handlecommand men breaker i tests
             var expectedResponse = "Haakon Magnus (Id=3) Født: 1973 Far: Harald (Id=6)\n"
                    + "  Barn:\n"
                    + "    Sverre Magnus (Id=1) Født: 2005\n"
