@@ -68,23 +68,10 @@ namespace Oblig1
 
             if (_content.Count != 0)
             {
-                // List all item descriptions !!! \n kan fucketester
+                // List all item descriptions
                 for (int i = 0; i < _content.Count; i++)
                 {
-                    Person person = _content[i];
-                    List<Person> children = person.FindChildren(_content);
-
-                    builder.Append(person.GetDescription() + "\n");
-
-                    if (children.Count != 0)
-                    {
-                        builder.Append("  Barn:\n");
-                         
-                        foreach (var child in children)
-                        {
-                            builder.Append($"   {child.GetDescription()}\n");
-                        }
-                    } 
+                    
                 }
             }
             else 
