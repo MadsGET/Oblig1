@@ -68,9 +68,22 @@ namespace Oblig1
 
             if (_content.Count != 0)
             {
-                // List all item descriptions
-                for (int i = 0; i < _content.Count; i++)
+                // Familie grupper
+                Dictionary<int, List<int>> familyGroups = new Dictionary<int, List<int>>();
+                
+                // Add each person as its own family group
+                for (int i = 0; i < _content.Count; i++) 
                 {
+                    Person person = _content[i];
+
+                    // Set family group as a new list and populate children. 
+                    familyGroups.Add(person.Id, new List<int>());
+                    familyGroups[person.Id].AddRange(person.FindChildren(_content));
+                }
+
+                // Loop through each person and add their children.
+                for (int j = 0; j < _content.Count; j++) 
+                { 
                     
                 }
             }

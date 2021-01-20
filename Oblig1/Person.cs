@@ -54,15 +54,25 @@ namespace Oblig1
             return builder.ToString();
         }
 
-        public List<Person> FindChildren(List<Person> register)
+        public bool HasParent(List<Person> register) 
+        {
+            foreach (var person in register)
+            {
+                if (person.Mother == Mother || person.Father == Father) return true;
+            }
+
+            return false;
+        }
+
+        public List<int> FindChildren(List<Person> register)
         {
             // Setup result list
-            List<Person> result = new List<Person>();
+            List<int> result = new List<int>();
 
             foreach (var person in register) 
             {
                 // If this is the father or mother of the person
-                if (person.Father == this || person.Mother == this) result.Add(person);
+                if (person.Father == this || person.Mother == this) result.Add(person.Id);
             }
 
             return result;
