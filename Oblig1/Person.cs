@@ -9,6 +9,7 @@ namespace Oblig1
         public int Id, BirthYear, DeathYear;
         public string FirstName, LastName;
         public Person Mother, Father;
+        //public FamilyGroup family;
 
         public Person(int id = -1, string firstName = "", string lastName = "", int birthYear = -1, int deathYear = -1, Person mother = null, Person father = null)
         {
@@ -54,6 +55,7 @@ namespace Oblig1
             return builder.ToString();
         }
 
+        // Resolve on adding
         public bool HasParent(List<Person> register) 
         {
             foreach (var person in register)
@@ -64,6 +66,7 @@ namespace Oblig1
             return false;
         }
 
+        // Resolve on adding
         public List<int> FindChildren(List<Person> register)
         {
             // Setup result list
