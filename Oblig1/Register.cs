@@ -6,6 +6,7 @@ namespace Oblig1
 {
     public class Register
     {
+        // This is the content of the register
         public List<Person> Content;
 
         public Register() 
@@ -16,6 +17,7 @@ namespace Oblig1
         // Get an item
         public Person GetItem(int idToCompare) 
         {
+            // Loop through each item in content and find the correct one.
             foreach (var item in Content) 
             {
                 if (item.Id == idToCompare) return item;
@@ -30,7 +32,7 @@ namespace Oblig1
             Content.Add(item);
         }
 
-        // Checks if this register holds the parsed id
+        // Checks if this register contains the parsed ID
         public bool Contains(int idToCompare) 
         {
             foreach (var person in Content) 
@@ -45,12 +47,18 @@ namespace Oblig1
         public string ListItem(int id)
         {
             StringBuilder builder = new StringBuilder();
-
             Person fetchedPerson = GetItem(id);
            
             if (fetchedPerson != null) 
             {
-                builder.Append(fetchedPerson.familyTree.ToString());
+                if (fetchedPerson.familyTree != null)
+                {
+                    builder.Append(fetchedPerson.familyTree.ToString());
+                }
+                else 
+                {
+                    builder.Append(fetchedPerson.GetDescription());
+                }
             } 
             else
             {
@@ -62,19 +70,31 @@ namespace Oblig1
 
         public string ListAll() 
         {
-            StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder(1024);
 
             if (Content.Count != 0)
             {
                 List<FamilyTree> familyTrees = new List<FamilyTree>();
 
+                // Loop through each person in register
                 foreach (Person person in Content)
                 {
-                    if (person.familyTree != null && !familyTrees.Contains(person.familyTree))
+                    // If the person has a family tree
+                    if (person.familyTree != null)
                     {
-                        familyTrees.Add(person.familyTree);
-                        builder.Append(person.familyTree.ToString());
+                        // Check if this family tree has already been listed
+                        if (!familyTrees.Contains(person.familyTree)) 
+                        {
+                            // If not add to the list and append the family tree
+                            familyTrees.Add(person.familyTree);
+                            builder.Append(person.familyTree.ToString());
+                        }
                     }
+                    else if (person.Mother == null && person.Father == null) 
+                    {
+                        builder.Append(person.GetDescription() + "\n");
+                    }
+
                 }
             }
             else 

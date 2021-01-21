@@ -5,7 +5,7 @@ namespace Oblig1.UnitTest
     class UnitTest
     {
         [Test]
-        public void Test()
+        public void TestFamilyTree()
         {
             var sverreMagnus = new Person { Id = 1, FirstName = "Sverre Magnus", BirthYear = 2005 };
             var ingridAlexandra = new Person { Id = 2, FirstName = "Ingrid Alexandra", BirthYear = 2004 };
@@ -21,6 +21,18 @@ namespace Oblig1.UnitTest
                    + "  Barn:\n"
                    + "    Sverre Magnus (Id=1) Født: 2005\n"
                    + "    Ingrid Alexandra (Id=2) Født: 2004\n";
+            Assert.AreEqual(expectedResponse, actualResponse);
+        }
+
+        [Test]
+        public void TestNoFamilyTree()
+        {
+            var haakon = new Person { Id = 3, FirstName = "Haakon Magnus", BirthYear = 1973 };
+
+            var app = new FamilyApp(haakon);
+            var actualResponse = app.HandleCommand("vis 3", true); // Extra bool pga ville ha funksjonalitet clear i handlecommand men breaker i tests
+            var expectedResponse = "Haakon Magnus (Id=3) Født: 1973";
+
             Assert.AreEqual(expectedResponse, actualResponse);
         }
     }

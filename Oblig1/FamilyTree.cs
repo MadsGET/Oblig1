@@ -54,6 +54,7 @@ namespace Oblig1
             {
                 builder.Append("    ");
                 builder.Append(child.GetDescription(false));
+                builder.Append("\n");
             }
 
             return builder.ToString();
