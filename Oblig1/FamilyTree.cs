@@ -45,14 +45,14 @@ namespace Oblig1
         {
             StringBuilder builder = new StringBuilder();
 
-            if (Mother != null) builder.Append(Mother.GetDescription());
-            if (Father != null) builder.Append(Father.GetDescription());
+            if (Mother != null) builder.Append(Mother.GetDescription() + "\n");
+            if (Father != null) builder.Append(Father.GetDescription() + "\n");
 
             builder.Append("  Barn:\n");
 
             foreach (var child in Children) 
             {
-                builder.Append("   ");
+                builder.Append("    ");
                 builder.Append(child.GetDescription(false));
             }
 

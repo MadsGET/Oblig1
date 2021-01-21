@@ -50,7 +50,7 @@ namespace Oblig1
            
             if (fetchedPerson != null) 
             {
-                builder.Append(fetchedPerson.GetDescription()); 
+                builder.Append(fetchedPerson.familyTree.ToString());
             } 
             else
             {

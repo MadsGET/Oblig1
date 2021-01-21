@@ -52,7 +52,6 @@ namespace Oblig1
             if (DeathYear != -1) builder.Append($" Død: {DeathYear}");
             if (Father != null && displayParents) builder.Append($" Far: {Father.GetDescriptionShort()}");
             if (Mother != null && displayParents) builder.Append($" Mor: {Mother.GetDescriptionShort()}");
-            builder.Append("\n");
             return builder.ToString();
         }
     }
