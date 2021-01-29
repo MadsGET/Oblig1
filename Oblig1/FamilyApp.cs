@@ -4,59 +4,25 @@ using System.Text;
 
 namespace Oblig1
 {
-    public class FamilyApp : Register
+    public class FamilyApp
     {
-        public readonly string WelcomeMessage = "-> Slektstre program - Oblig1.";
+        public string WelcomeMessage => ShowHelpText();
         public readonly string CommandPrompt = "-> Venter på kommando.\n";
         public readonly string InvalidCommand = "\n-> Ukjent kommando.\n";
 
+        // This is the content of the register
+        public List<Person> Content;
+
+
         public FamilyApp(params Person[] persons) 
         {
+            Content = new List<Person>();
+
             foreach (Person person in persons) 
-            {
-                bool isMother = false;
-                List <Person> children = new List<Person>();
-
-                foreach (Person potentialChild in persons) 
-                {
-                    if (potentialChild.Father == person || potentialChild.Mother == person) 
-                    {
-                        isMother = (potentialChild.Mother == person);
-                        children.Add(potentialChild);
-                    }
-                }
-
-                if (children.Count != 0) 
-                {
-                    person.familyTree = new FamilyTree(children.ToArray());
-                    person.familyTree.AddParent(person, isMother);
-                }
-
+            {            
                 // Add this person to the register
                 AddItem(person);
-            }
-
-            // Loop through and join any family trees that are seperated
-            for (int i = 0; i < persons.Length; i++) 
-            {            
-                Person selected = Content[i];
-
-                // If this person is childless.
-                if (selected.familyTree == null) continue;
-
-                foreach (Person person in Content) 
-                {
-                    // If this person is not the same as selected and is not childless
-                    if (person != selected && person.familyTree != null) 
-                    {                     
-                        if (selected.familyTree.Compare(person.familyTree)) 
-                        {
-                            // Join the familytrees
-                            selected.familyTree.Join(person);
-                        }
-                    }
-                }
-            }       
+            }    
         }
 
         public string HandleCommand(string parameter, bool isUnitTest = false)
@@ -85,6 +51,91 @@ namespace Oblig1
             builder.Append("-> Hjelp    : Viser en liste av kommandoer.\n");
             builder.Append("-> Liste    : Henter all lagret personalia fra registeret.\n");
             builder.Append("-> Vis <ID> : Henter personalia fra registeret med bruk av ID feltet.");
+
+            return builder.ToString();
+        }
+
+        // Get an item
+        public Person GetItem(int idToCompare)
+        {
+            // Loop through each item in content and find the correct one.
+            foreach (var item in Content)
+            {
+                if (item.Id == idToCompare) return item;
+            }
+
+            return null;
+        }
+
+        // Add an item
+        public void AddItem(Person item)
+        {
+            Content.Add(item);
+        }
+
+        // Checks if this register contains the parsed ID
+        public bool Contains(int idToCompare)
+        {
+            foreach (var person in Content)
+            {
+                if (person.Id == idToCompare) return true;
+            }
+
+            return false;
+        }
+
+        // Lists a specific item within our register.
+        public string ListItem(int id)
+        {
+            StringBuilder builder = new StringBuilder();
+            Person fetchedPerson = GetItem(id);
+
+            if (fetchedPerson != null)
+            {
+                builder.Append(fetchedPerson.GetDescription());
+                builder.Append("\n");
+                bool hasChildren = false;
+
+                foreach (Person p in Content) 
+                {
+                    if (p.Father == fetchedPerson || p.Mother == fetchedPerson) 
+                    {
+                        if (!hasChildren) 
+                        {
+                            builder.Append("Barn:\n");
+                            hasChildren = true;
+                        }
+                        builder.Append(p.GetDescriptionShort());
+                        builder.Append("\n");
+                    }
+                }
+            }
+            else
+            {
+                builder.Append("Person finnes ikke databasen.");
+            }
+
+            return builder.ToString();
+        }
+
+        public string ListAll()
+        {
+            StringBuilder builder = new StringBuilder(1024);
+
+            if (Content.Count != 0)
+            {
+                // Loop through each person in register
+                foreach (Person person in Content)
+                {
+                   
+                    builder.Append(person.GetDescription() + "\n");
+
+                }
+            }
+            else
+            {
+                builder.Append("Databasen er tom.");
+            }
 
             return builder.ToString();
         }

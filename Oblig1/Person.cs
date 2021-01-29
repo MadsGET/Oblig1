@@ -9,7 +9,6 @@ namespace Oblig1
         public int Id, BirthYear, DeathYear;
         public string FirstName, LastName;
         public Person Mother, Father;
-        public FamilyTree familyTree;
 
         public Person(int id = -1, string firstName = "", string lastName = "", int birthYear = -1, int deathYear = -1, Person mother = null, Person father = null)
         {
@@ -20,7 +19,6 @@ namespace Oblig1
             DeathYear = deathYear;
             Mother = mother;
             Father = father;
-            familyTree = null;
         }
 
         public string GetName() 
