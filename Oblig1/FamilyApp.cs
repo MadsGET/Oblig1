@@ -93,7 +93,6 @@ namespace Oblig1
             if (fetchedPerson != null)
             {
                 builder.Append(fetchedPerson.GetDescription());
-                builder.Append("\n");
                 bool hasChildren = false;
 
                 foreach (Person p in Content) 
@@ -102,11 +101,11 @@ namespace Oblig1
                     {
                         if (!hasChildren) 
                         {
-                            builder.Append("Barn:\n");
+                            builder.Append("\n");
+                            builder.Append("  Barn:\n");
                             hasChildren = true;
                         }
-                        builder.Append(p.GetDescriptionShort());
-                        builder.Append("\n");
+                        builder.Append($"    {p.GetDescription(false)}\n");
                     }
                 }
             }
