@@ -20,7 +20,7 @@ namespace Oblig1
             Mother = mother;
             Father = father;
         }
-
+          
         public string GetName() 
         {
             return FirstName + " " + LastName;

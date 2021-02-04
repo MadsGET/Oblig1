@@ -13,7 +13,6 @@ namespace Oblig1
         // This is the content of the register
         public List<Person> Content;
 
-
         public FamilyApp(params Person[] persons) 
         {
             Content = new List<Person>();
@@ -125,10 +124,8 @@ namespace Oblig1
             {
                 // Loop through each person in register
                 foreach (Person person in Content)
-                {
-                   
+                {                 
                     builder.Append(person.GetDescription() + "\n");
-
                 }
             }
             else
